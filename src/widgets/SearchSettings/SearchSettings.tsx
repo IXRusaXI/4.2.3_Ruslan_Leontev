@@ -13,7 +13,7 @@ export function SearchSettings() {
             <Group justify='space-between'>
                 <Input
                     placeholder="Навык"
-                    w={'80%'}
+                    w={'78%'}
                     className={'skill-input'}
                 />
                 <Button px='sm' color='#006eff60'>
