@@ -19,14 +19,14 @@ function App() {
       <Divider color='#5050552c' />
 
       <ContentContainer>
-        <Group gap={0} justify='space-between'>
-          <Flex direction="column" gap='sm' w="30%" align='top' >
+        <Group gap={0} justify='space-between' align='top'>
+          <Stack gap='sm' w="30%" >
             <SearchSettings />
             <SearchSettings />
-          </Flex>
+          </Stack>
 
 
-          <Stack gap={15} w="65%">
+          <Stack gap='lg' w="67%">
             <SearchSettings />
             <SearchSettings />
             <SearchSettings />
