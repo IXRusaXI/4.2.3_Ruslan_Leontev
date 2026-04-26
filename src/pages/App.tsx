@@ -12,7 +12,7 @@ import './App.css'
 function App() {
 
   return (
-    <Box  bg='background' mih='100vh'>
+    <Box  bg='background' mih='100vh' pb='xl'>
       <Header />
       <ContentContainer>
         <PageTitle />
@@ -30,35 +30,19 @@ function App() {
 
           <Stack gap='lg' w="67%">
             <Vacancy />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
-            <SearchSettings />
+            <Vacancy />
+            <Vacancy />
+            <Vacancy />
+            <Vacancy />
+            <Vacancy />
 
-            <Group justify='center'>
+            <Group justify='center' mb='xl'>
               <Pagination total={10} withEdges radius={4}/>
             </Group>
 
           </Stack>
         </Group>
       </ContentContainer>
-
-
-
-      <Card shadow="sm" padding="lg" radius="md" withBorder w={400} mx="auto" mt={40}>
-        <Badge color="blue" variant="gradient">Mantine работает!</Badge>
-        <Group justify="center" mt="md">
-          <Button color="primary" size="lg">Красная кнопка</Button>
-          <Button color="green" variant="outline">Зелёная outline</Button>
-        </Group>
-        <Text c="dimmed" ta="center" mt="sm">
-          Проверь градиенты, тени и responsive.
-        </Text>
-      </Card>
     </ Box>
   )
 }
