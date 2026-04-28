@@ -45,3 +45,8 @@ export interface VacanciesResponse {
     pages: number,
     per_page: number,
 }
+
+export interface SearchParams {
+    skills: string[],
+    searchString: string
+}
