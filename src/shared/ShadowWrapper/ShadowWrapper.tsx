@@ -1,4 +1,4 @@
-import { Box, Card } from '@mantine/core';
+import { Card } from '@mantine/core';
 
 interface ShadowWrapperProps {
   children: React.ReactNode;

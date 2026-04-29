@@ -1,4 +1,4 @@
-import { Button, Badge, Group, Card, Text, Box, Stack, Container, Flex, Pagination, Title } from '@mantine/core';
+import { Group, Box, Stack, Flex, Pagination, Title } from '@mantine/core';
 import { Header } from '../widgets/Header/Header';
 import { PageTitle } from './../widgets/PageTitle/PageTitle'
 import { Divider } from '@mantine/core';
@@ -7,7 +7,7 @@ import SkillSettings from '../widgets/SkillSettings/SkillSettings'
 import { CitySelector } from './../shared/CitySelector/CitySelector'
 import { Vacancy } from './../widgets/Vacancy/Vacancy'
 import './App.css'
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './../store/typedHooks'
 import { vacanciesActions } from './../store/slices/vacancies/vacanciesSlice';
 import { pageActions } from './../store/slices/page/pageSlice';
@@ -16,7 +16,6 @@ import VacanciesData from './../pages/data/vacancies'
 
 function App() {
   const dispatch = useAppDispatch()
-  // const all = useAppSelector(state => state.vacancy.all)
   const city = useAppSelector(state => state.filter.city)
   const activePageNumber = useAppSelector(state => state.page.activePageNumber)
   const activePageList = useAppSelector(state => state.page.activePageList)

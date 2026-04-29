@@ -1,5 +1,5 @@
-import { Button, Group, Input, Stack, Title, Text } from '@mantine/core';
-import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
+import { Button, Group, Stack, Title, Text } from '@mantine/core';
+import { useAppDispatch } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import SearchInput from './../../shared/SearchInput/SearchInput';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ export function PageTitle() {
   const [searchInput, setSearchInput] = useState('')
   const dispatch = useAppDispatch()
   
-  function onClick(e: React.MouseEvent<HTMLButtonElement>) {
+  function onClick() {
     dispatch(filterActions.setSearchString(searchInput))
   }
 
