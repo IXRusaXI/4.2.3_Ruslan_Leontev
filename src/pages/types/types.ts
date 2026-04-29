@@ -38,15 +38,8 @@ export interface Vacancy {
     description?: string,
 }
 
-export interface VacanciesResponse {
-    items: Vacancy[],
-    found: number,
-    page: number,
-    pages: number,
-    per_page: number,
-}
-
 export interface SearchParams {
     skills: string[],
-    searchString: string
+    searchString: string,
+    city: string
 }

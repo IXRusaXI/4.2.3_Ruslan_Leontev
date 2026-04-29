@@ -1,22 +1,40 @@
-import { afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+// src/test/setup.ts
+import { afterEach, vi } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import '@testing-library/jest-dom/vitest'
 
-// Мок для window.matchMedia, нужен Mantine в jsdom
 if (!window.matchMedia) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).matchMedia = vi.fn().mockImplementation((query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(), // старый API
-    removeListener: vi.fn(), // старый API
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  }))
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  })
 }
 
+class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+Object.defineProperty(window, 'ResizeObserver', {
+  writable: true,
+  value: ResizeObserver,
+})
+
+Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+  writable: true,
+  value: vi.fn(),
+})
+
 afterEach(() => {
-  cleanup();
-});
+  cleanup()
+})

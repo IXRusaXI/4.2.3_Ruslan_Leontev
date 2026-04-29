@@ -5,15 +5,15 @@ import SearchInput from './../../shared/SearchInput/SearchInput';
 import { useState } from 'react';
 
 export function PageTitle() {
-  const searchString = useAppSelector(state => state.filter.searchString)
+  const [searchInput, setSearchInput] = useState('')
   const dispatch = useAppDispatch()
   
   function onClick(e: React.MouseEvent<HTMLButtonElement>) {
-    // Активируем перефильтрацию списка
+    dispatch(filterActions.setSearchString(searchInput))
   }
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(filterActions.setSearchString(e.target.value))
+    setSearchInput(e.target.value)
   }
 
   return (
@@ -26,7 +26,7 @@ export function PageTitle() {
         <Group>
             <SearchInput
               onChange={onChange} 
-              value={searchString} 
+              value={searchInput} 
             />
             <Button 
               onClick={onClick} 

@@ -1,4 +1,4 @@
-import { Box, Button, Group, Input, Stack, Text, Image, Flex, Pill } from '@mantine/core';
+import { Button, Group, Input, Stack, Text, Image, Flex, Pill } from '@mantine/core';
 import { ShadowWrapper } from '../../shared/ShadowWrapper/ShadowWrapper'
 import plusIcon from './../../shared/icons/plus.svg'
 import './style.scss'
@@ -7,11 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import { useState } from 'react';
 
-export function SearchSettings() {
+export function SkillSettings() {
   const [skillString, setSkillString] = useState('')
   const dispatch = useAppDispatch()
   const skills = useAppSelector(state => state.filter.skills)
-
 
   return (
     <ShadowWrapper >
@@ -49,4 +48,4 @@ export function SearchSettings() {
   );
 }
 
-export default SearchSettings
+export default SkillSettings

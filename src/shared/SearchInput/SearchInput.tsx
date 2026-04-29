@@ -10,11 +10,6 @@ interface SearchInputProps {
 
 export function SearchInput({ value, onChange }: SearchInputProps) {
 
-  // function onChange(e: React.ChangeEvent<HTMLInputElement>) {
-  //   onChange1(e)
-  //   console.log(e.target.value)
-  // }
-
   return (
     <Input
         value={value}

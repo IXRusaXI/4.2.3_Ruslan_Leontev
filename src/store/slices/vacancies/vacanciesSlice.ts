@@ -1,22 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { Vacancy, SearchParams } from './../../../pages/types/types';
 
-
 // Начальное состояние
 interface VacanciesState {
   all: Vacancy[];
   filtered: Vacancy[];
-  total: number;
-  currentPage: number;
-  pageSize: number;
 }
 
 const initialState: VacanciesState = {
   all: [],
   filtered: [],
-  total: 0,
-  currentPage: 1,
-  pageSize: 10
 };
 
 // Создание slice
@@ -30,27 +23,20 @@ const vacanciesSlice = createSlice({
         state.all = action.payload;
     },
 
-    // Соединить кнопку и экшен поиска
-    // Соединить отрисовку скилов с состоянием приложения, соединить изменение набора скилов с обновлением отфильтрованного списка
-    // Связать выбор города с обновлением отфильтрованного списка
-
-
     filterVacancies: (state, action: PayloadAction<SearchParams>) => {
-        let temp: Vacancy[] = [];
+        console.log('action.payload:', action.payload);
 
-        if (action.payload.searchString) {
-            temp = state.all.filter((vacancy) => vacancy.name.toLowerCase().includes(action.payload.searchString.toLowerCase()));
-        }
+        state.filtered = state.all.filter((vacancy) => {
+            const { skills, searchString, city } = action.payload
 
-        // if (action.payload.skills.length) {
-        //     temp = state.filtered.filter((vacancy) => {
-        //         return action.payload.skills.some((skill) => vacancy.name.toLowerCase().includes(skill.toLowerCase()));
-        //     });
-        // }
-
-
-        state.filtered = temp;
-        state.total = temp.length;
+            if (skills.length > 0 && !skills.every((skill) => vacancy.snippet?.requirement?.toLowerCase().includes(skill.toLowerCase()))) return false
+            if (searchString.length > 0 && !vacancy.name.toLowerCase().includes(searchString.toLowerCase())) return false
+            if (city.length > 0 && city !== 'Все города') {
+              return vacancy.area.name.toLowerCase().includes(city.toLowerCase())
+            }
+              
+            return true
+        })
     },
   }
 });

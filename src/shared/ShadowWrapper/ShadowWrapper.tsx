@@ -6,11 +6,8 @@ interface ShadowWrapperProps {
 
 
 export function ShadowWrapper({ children }: ShadowWrapperProps) {
-
   return (
-    <Card px="md" py="sm"  // Твоя white.6 = FFFFFF, тень ниже
-      style={{ boxShadow: '0 2px 6px rgba(15, 15, 16, 0.35)'}}
-    >
+    <Card px="md" py="sm" style={{ boxShadow: '0 2px 6px rgba(15, 15, 16, 0.35)'}}>
         {children}
     </Card>
   );

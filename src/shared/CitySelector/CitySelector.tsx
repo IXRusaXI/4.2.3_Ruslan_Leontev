@@ -1,30 +1,30 @@
 import { Select } from '@mantine/core';
 import { ShadowWrapper } from './../../shared/ShadowWrapper/ShadowWrapper'
 import searchIcon from './../../shared/icons/geoMark.svg'
-import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
+import { useAppDispatch } from '../../store/typedHooks'
 import './style.scss'
 import { filterActions } from '../../store/slices/filter/filterSlice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function CitySelector() {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const dispatch = useAppDispatch()
-  // const skills = useAppSelector(state => state.filter.skills)
-
 
   const handleChange = (value: string | null) => {
     setSelectedValue(value);
     value && dispatch(filterActions.updateCity(value))
   };
 
+  useEffect(() => {
+    setSelectedValue('Все города')
+  }, [])
+
   return (
     <ShadowWrapper >
         <Select 
         value={selectedValue} onChange={handleChange}
-            // onSelect={event => dispatch(filterActions.updateCity(event.target.value))}
-            data={['Москва', 'Питер', 'Чернобыль', 'Екатеринбург', 'Тула']}
+            data={['Все города', 'Москва', 'Санкт‑Петербург', 'Чернобыль', 'Екатеринбург', 'Тула']}
             className='city-selector'
-            placeholder='Все города'
             leftSection={
                 <img 
                 src={searchIcon} 

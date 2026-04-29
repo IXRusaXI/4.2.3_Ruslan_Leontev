@@ -1,15 +1,18 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';// предполагаем, что интерфейс Vacancy лежит в types.ts
+import type { Vacancy } from '../../../pages/types/types';
 
 
 // Начальное состояние
 interface PaginationState {
-    activePage: number,
+    activePageNumber: number,
+    activePageList: Vacancy[],
     total: number
 }
 
 const initialState: PaginationState = {
-    activePage: 1,
-    total: 0
+    activePageNumber: 1,
+    total: 0,
+    activePageList: []
 };
 
 // Создание slice
@@ -21,7 +24,12 @@ const pageSlice = createSlice({
         state.total = action.payload
     },
     setPage: (state, action: PayloadAction<number>) => {
-        state.activePage = action.payload
+        state.activePageNumber = action.payload
+    },
+    setActivePageList: (state, action: PayloadAction<{filtered: Vacancy[], page: number}>) => {
+        const limit = 4
+
+        state.activePageList = action.payload.filtered.slice((action.payload.page - 1) * limit, action.payload.page * limit)
     }
   }
 });

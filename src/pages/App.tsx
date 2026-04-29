@@ -1,13 +1,13 @@
-import { Button, Badge, Group, Card, Text, Box, Stack, Container, Flex, Pagination } from '@mantine/core';
+import { Button, Badge, Group, Card, Text, Box, Stack, Container, Flex, Pagination, Title } from '@mantine/core';
 import { Header } from '../widgets/Header/Header';
 import { PageTitle } from './../widgets/PageTitle/PageTitle'
 import { Divider } from '@mantine/core';
-import { ContentContainer } from './../shared/ContentContainer/ContentConteiner';
+import { ContentContainer } from '../shared/ContentContainer/ContentContainer';
 import SkillSettings from '../widgets/SkillSettings/SkillSettings'
 import { CitySelector } from './../shared/CitySelector/CitySelector'
 import { Vacancy } from './../widgets/Vacancy/Vacancy'
 import './App.css'
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './../store/typedHooks'
 import { vacanciesActions } from './../store/slices/vacancies/vacanciesSlice';
 import { pageActions } from './../store/slices/page/pageSlice';
@@ -16,27 +16,49 @@ import VacanciesData from './../pages/data/vacancies'
 
 function App() {
   const dispatch = useAppDispatch()
-  const all = useAppSelector(state => state.vacancy.all)
+  // const all = useAppSelector(state => state.vacancy.all)
   const city = useAppSelector(state => state.filter.city)
-  const activePage = useAppSelector(state => state.page.activePage)
+  const activePageNumber = useAppSelector(state => state.page.activePageNumber)
+  const activePageList = useAppSelector(state => state.page.activePageList)
   const total = useAppSelector(state => state.page.total)
-
-  useEffect(() => {
-    console.log('city:', city);
-  }, [city])
+  const filteredList = useAppSelector(state => state.vacancy.filtered)
+  const searchString = useAppSelector(state => state.filter.searchString)
+  const skills = useAppSelector(state => state.filter.skills)
+  const pageLimit = 4
 
   useEffect(() => {
     dispatch(vacanciesActions.setAllVacancies(VacanciesData))
-    dispatch(pageActions.setTotalPages(VacanciesData.length / 10))
   }, [])
+
+  useEffect(() => {
+    dispatch(vacanciesActions.filterVacancies({searchString, skills, city}))
+  }, [searchString, skills, city])
+
+  useEffect(() => {
+    const integerPagesNumber = filteredList.length / pageLimit
+    const floatPagesNumber = filteredList.length % pageLimit
+
+    if (integerPagesNumber < 0 && floatPagesNumber > 0) {
+      dispatch(pageActions.setTotalPages(1))
+      return
+    } 
+    if (integerPagesNumber > 0 && floatPagesNumber > 0) {
+      dispatch(pageActions.setTotalPages(integerPagesNumber + 1))
+      return
+    } 
+    dispatch(pageActions.setTotalPages(filteredList.length / pageLimit))
+  }, [filteredList])
+
+  useEffect(() => {
+    dispatch(pageActions.setActivePageList({filtered: filteredList, page: activePageNumber}))
+  }, [activePageNumber, total])
 
   function setPage(page: number) {
     dispatch(pageActions.setPage(page))
-    console.log('page:', page);
   }
 
   return (
-    <Box  bg='background' mih='100vh' pb='xl'>
+    <Box bg='background' mih='100vh' pb='xl' >
       <Header />
       <ContentContainer>
         <PageTitle />
@@ -51,24 +73,31 @@ function App() {
             <CitySelector />
           </Stack>
 
-
-          <Stack gap='lg' w="67%">
-            <Vacancy />
-            <Vacancy />
-            <Vacancy />
-            <Vacancy />
-            <Vacancy />
-            <Vacancy />
+          {filteredList?.length > 0 && <Stack gap='lg' w="67%">
+            {activePageList?.map(vacancy => <Vacancy
+              key={vacancy.id}
+              vacancy={vacancy}
+            />)}
 
             <Group justify='center' mb='xl'>
               <Pagination
-                value={activePage}
+                value={activePageNumber}
                 onChange={setPage}
                 total={total}
                 radius={4} withEdges/>
             </Group>
+          </Stack>}
 
-          </Stack>
+          {filteredList?.length === 0 && <Flex w="67%">
+          <Title 
+            order={1}
+            m='auto'
+            fw={600} 
+            c='#00000050'
+          >
+            Вакансии по данному запросу не найдены
+          </Title>
+          </Flex>}
         </Group>
       </ContentContainer>
     </ Box>

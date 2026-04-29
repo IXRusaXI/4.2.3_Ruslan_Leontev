@@ -1,21 +1,36 @@
 import { Group, Stack, Title, Text, Badge, Button } from '@mantine/core';
 import { ShadowWrapper } from './../../shared/ShadowWrapper/ShadowWrapper'
-// import './style.scss'
+import type { Vacancy } from '../../pages/types/types';
 
-export function Vacancy() {
+interface VacancyProps {
+    vacancy: Vacancy
+}
+
+export function Vacancy({vacancy: {
+    name, 
+    salary, 
+    experience, 
+    employer, 
+    schedule,
+    area
+}}: VacancyProps) {
   return (
     <ShadowWrapper >
         <Stack mb='lg' gap='sm'>
-            <Title order={3} c='primary' fw={600}> Frontend разработчик в казино </Title>
+            <Title order={3} c='primary' fw={600}> {name} </Title>
             <Group>
-                <Text>80 000 - 130 000 &#8381;</Text>
-                <Text c='#00000050'> Без опыта </Text>
+                {salary?.from && !salary.to && <Text> От {salary?.from} &#8381; </Text>}
+                {salary?.to && !salary.from && <Text> До {salary?.to} &#8381; </Text>}
+                {salary?.from && salary.to && <Text> {salary?.from} - {salary?.to} &#8381; </Text>}
+                <Text c='#00000050'> {experience.name} </Text>
             </Group>
         </Stack>
         <Stack gap='xs' mb='lg'>
-            <Text c='#00000050'>Kata Academy</Text>
-            <Badge size='xs'> Можно удаленно </Badge>
-            <Text size='lg'>Набережные челны</Text>
+            <Text c='#00000050'>{employer?.name}</Text>
+            {schedule?.name === 'Полный день' && <Badge size='xs' color='red'> {schedule.name} </Badge>}
+            {schedule?.name === 'Удаленная работа' && <Badge size='xs' color='green'> {schedule.name} </Badge>}
+            {schedule?.name === 'Гибкий график' && <Badge size='xs' > {schedule.name} </Badge>}
+            <Text size='lg'>{area.name}</Text>
         </Stack>
         <Group>
             <Button fw={400} bg='black' c='white'>Смотреть вакансию</Button>

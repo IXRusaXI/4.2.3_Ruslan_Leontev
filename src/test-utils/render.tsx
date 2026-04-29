@@ -5,9 +5,9 @@ import { MantineProvider } from '@mantine/core'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { store as appStore, type RootState } from './../store/store'
-// import modalReducer from '../store/slices/modal/modalSlice'
-// import cartReducer from '../store/slices/cart/cartSlice'
-// import productReducer from '../store/slices/products/productSlice'
+import pageReducer from './../store/slices/page/pageSlice'
+import filterReducer from './../store/slices/filter/filterSlice'
+import vacancyReducer from './../store/slices/vacancies/vacanciesSlice'
 
 type PreloadedState = Partial<RootState>
 
@@ -25,9 +25,9 @@ export function renderWithProviders(
     store ??
     configureStore({
       reducer: {
-        // modal: modalReducer,
-        // cart: cartReducer,
-        // products: productReducer,
+        page: pageReducer,
+        filter: filterReducer,
+        vacancy: vacancyReducer,
       },
       preloadedState: preloadedState as RootState | undefined,
     })

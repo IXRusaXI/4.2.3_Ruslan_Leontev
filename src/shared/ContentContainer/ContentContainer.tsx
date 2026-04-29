@@ -7,7 +7,7 @@ interface ContentContainerProps {
 export function ContentContainer({ children }: ContentContainerProps) {
   return (
     <>
-      <Container size="lg" py="lg"> {/* xl ~1200px, центр + отступы как VK/FB */}
+      <Container size="lg" py="lg">
         {children}
       </Container>
     </>
