@@ -10,6 +10,7 @@ import './App.css'
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './../store/typedHooks'
 import { vacanciesActions } from './../store/slices/vacancies/vacanciesSlice';
+import { pageActions } from './../store/slices/page/pageSlice';
 import VacanciesData from './../pages/data/vacancies'
 
 
@@ -17,6 +18,8 @@ function App() {
   const dispatch = useAppDispatch()
   const all = useAppSelector(state => state.vacancy.all)
   const city = useAppSelector(state => state.filter.city)
+  const activePage = useAppSelector(state => state.page.activePage)
+  const total = useAppSelector(state => state.page.total)
 
   useEffect(() => {
     console.log('city:', city);
@@ -24,8 +27,13 @@ function App() {
 
   useEffect(() => {
     dispatch(vacanciesActions.setAllVacancies(VacanciesData))
-    // dispatch(vacanciesActions.setFilteredVacancies(VacanciesData))
+    dispatch(pageActions.setTotalPages(VacanciesData.length / 10))
   }, [])
+
+  function setPage(page: number) {
+    dispatch(pageActions.setPage(page))
+    console.log('page:', page);
+  }
 
   return (
     <Box  bg='background' mih='100vh' pb='xl'>
@@ -53,7 +61,11 @@ function App() {
             <Vacancy />
 
             <Group justify='center' mb='xl'>
-              <Pagination total={10} withEdges radius={4}/>
+              <Pagination
+                value={activePage}
+                onChange={setPage}
+                total={total}
+                radius={4} withEdges/>
             </Group>
 
           </Stack>

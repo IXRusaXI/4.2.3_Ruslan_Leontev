@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import vacancyReducer from './slices/vacancies/vacanciesSlice'
 import filterReducer from './slices/filter/filterSlice'
-// import modalReducer from './slices/modal/modalSlice'
-// import cartReducer from './slices/cart/cartSlice'
+import pageReducer from './slices/page/pageSlice'
 
 export interface Item {
     id: number,
@@ -15,7 +14,7 @@ export const store = configureStore({
   reducer: {
     vacancy: vacancyReducer,
     filter: filterReducer,
-    // page: cartReducer
+    page: pageReducer
   },
 })
 

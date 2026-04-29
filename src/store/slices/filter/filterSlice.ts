@@ -29,6 +29,9 @@ const filterSlice = createSlice({
     updateCity: (state, action: PayloadAction<string>) => {
         state.city = action.payload
     },
+    setSearchString: (state, action: PayloadAction<string>) => {
+        state.searchString = action.payload
+    }
   }
 });
 
