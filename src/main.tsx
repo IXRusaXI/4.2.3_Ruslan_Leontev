@@ -5,15 +5,20 @@ import App from './pages/App.tsx';
 import { store } from './store/store.ts';
 import { Provider } from 'react-redux';
 import { MantineProvider } from '@mantine/core';
+import { BrowserRouter } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import { theme } from './theme.ts'
 
+const base = '/4.2.3_Ruslan_Leontev/';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}>
-      <MantineProvider theme={theme}>
-        <App />
-      </MantineProvider>
-    </Provider>
+    <BrowserRouter basename={base}>
+      <Provider store={store}>
+        <MantineProvider theme={theme}>
+          <App />
+        </MantineProvider>
+      </Provider>
+    </BrowserRouter>
   </StrictMode>,
 )

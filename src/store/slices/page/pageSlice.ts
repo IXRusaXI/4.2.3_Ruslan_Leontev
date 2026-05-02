@@ -27,7 +27,7 @@ const pageSlice = createSlice({
         state.activePageNumber = action.payload
     },
     setActivePageList: (state, action: PayloadAction<{filtered: Vacancy[], page: number}>) => {
-        const limit = 4
+        const limit = 10
 
         state.activePageList = action.payload.filtered.slice((action.payload.page - 1) * limit, action.payload.page * limit)
     }
