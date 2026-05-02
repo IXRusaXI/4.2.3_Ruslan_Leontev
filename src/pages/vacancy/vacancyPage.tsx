@@ -1,19 +1,23 @@
 import { useParams } from "react-router-dom";
-import { Vacancy } from "../../widgets/Vacancy/Vacancy"
-import { useAppSelector } from "../../store/typedHooks";
+import { Vacancy as VacancyCard } from "../../widgets/Vacancy/Vacancy"
 import { Container } from "@mantine/core";
+import { useEffect } from "react";
+import { type Vacancy } from './../types/types'
+import { useQueryParams } from "../../tools/params/ParamTool";
+
 
 function VacancyPage() {
     const { id } = useParams();
+    let vacancy: Vacancy | undefined;
+    const { getVacancyById } = useQueryParams()
 
-    console.log(id);
-    const all = useAppSelector(state => state.vacancy.all)
-    console.log(all);
-    const vacancy = all.find(vacancy => vacancy.id === id)
-    console.log(vacancy);
+    if (id) {   
+        vacancy = getVacancyById(id)
+    }
+
     return (
         vacancy && <Container size="sm" py="lg">
-            <Vacancy
+            <VacancyCard
                 key={id}
                 vacancy={vacancy}
             />

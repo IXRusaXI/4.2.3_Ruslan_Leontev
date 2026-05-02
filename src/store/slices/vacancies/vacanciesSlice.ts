@@ -38,14 +38,6 @@ const vacanciesSlice = createSlice({
             return true
         })
     },
-
-    getVacancyById: (state, action: PayloadAction<SearchParams>) => {
-return state.all.find((vacancy) => vacancy.id === action.payload)
-    },
-    
-    // getVacancyById: (state, action: PayloadAction<string>) => {
-    //     return state.all.find((vacancy) => vacancy.id === action.payload)
-    // },
   }
 });
 

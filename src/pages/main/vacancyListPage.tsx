@@ -10,9 +10,16 @@ import { useAppDispatch, useAppSelector } from './../../store/typedHooks'
 import { vacanciesActions } from './../../store/slices/vacancies/vacanciesSlice';
 import { pageActions } from './../../store/slices/page/pageSlice';
 import VacanciesData from './../../pages/data/vacancies'
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useSearchParams } from 'react-router-dom';
+
 
 function App() {
+  const [seacrchParams, setSearchParams] = useSearchParams();
+
+  const searchStringParam = seacrchParams.get('searchString')
+  const skillsParam = seacrchParams.getAll('skill')
+  const cityParam = seacrchParams.get('city')
+
   const dispatch = useAppDispatch()
   const city = useAppSelector(state => state.filter.city)
   const activePageNumber = useAppSelector(state => state.page.activePageNumber)
@@ -61,11 +68,6 @@ function App() {
       </ContentContainer>
 
       <Divider color='#5050552c' />
-
-      <Routes>
-      <Route path='chinazes' element={<div> Чиназес </div>} />
-      </Routes>
-      <Link to='chinazes' replace={false}>Чиназес</Link>
 
       <ContentContainer>
         <Group gap={0} justify='space-between' align='top'>
