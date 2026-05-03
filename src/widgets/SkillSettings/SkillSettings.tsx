@@ -5,12 +5,42 @@ import './style.scss'
 import SkillList from '../../shared/SkillList/SkillList';
 import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryParams } from '../../tools/params/ParamTool';
+import { useSearchParams } from 'react-router-dom';
 
 export function SkillSettings() {
   const [skillString, setSkillString] = useState('')
   const dispatch = useAppDispatch()
   const skills = useAppSelector(state => state.filter.skills)
+  const { updateSkills } = useQueryParams()
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const searchString = searchParams.get('searchString')
+    const city = searchParams.get('city')
+    const paramSkills = searchParams.get('skills')
+
+    if ((city || searchString) && !paramSkills?.length) {
+        dispatch(filterActions.setSkills([]))
+        updateSkills([])
+        return
+    }
+
+    updateSkills(skills)
+  }, [])
+
+  function addSkill() {
+    if (skillString.length === 0) return
+    updateSkills([...skills, skillString])
+    dispatch(filterActions.addSkill(skillString))
+  }
+
+  function removeSkill(skill: string) {
+    updateSkills(skills.filter(s => s !== skill))
+    dispatch(filterActions.removeSkill(skill))
+  }
+
 
   return (
     <ShadowWrapper >
@@ -24,8 +54,9 @@ export function SkillSettings() {
                     className={'skill-input'}
                     value={skillString}
                     onChange={(e) => setSkillString(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addSkill()}
                 />
-                <Button px='sm' color='#006eff60' onClick={() => dispatch(filterActions.addSkill(skillString))}>
+                <Button px='sm' color='#006eff60' onClick={addSkill}>
                     <Image src={plusIcon} />    
                 </Button>
             </Group>
@@ -37,7 +68,7 @@ export function SkillSettings() {
                         key={skill} 
                         bg='#00000008' 
                         withRemoveButton 
-                        onRemove={() => dispatch(filterActions.removeSkill(skill))}
+                        onRemove={() => removeSkill(skill)}
                     >
                         {skill}
                     </Pill>)}

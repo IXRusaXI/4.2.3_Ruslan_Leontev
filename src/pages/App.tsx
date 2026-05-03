@@ -18,7 +18,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="list" element={<List />} />
+          <Route path="" element={<List />} />
           <Route path="vacancy/:id" element={<VacancyPage />} />
         </Route>
       </Routes>

@@ -1,12 +1,14 @@
 import { Group, Stack, Title, Text, Badge, Button } from '@mantine/core';
 import { ShadowWrapper } from './../../shared/ShadowWrapper/ShadowWrapper'
 import type { Vacancy } from '../../pages/types/types';
+import { Link } from 'react-router-dom';
 
 interface VacancyProps {
     vacancy: Vacancy
 }
 
 export function Vacancy({vacancy: {
+    id,
     name, 
     salary, 
     experience, 
@@ -33,7 +35,8 @@ export function Vacancy({vacancy: {
             <Text size='lg'>{area.name}</Text>
         </Stack>
         <Group>
-            <Button fw={400} bg='black' c='white'>Смотреть вакансию</Button>
+            
+            <Link to={`/vacancy/${id}`} ><Button fw={400} bg='black' c='white'> Смотреть вакансию </Button></Link>
             <Button fw={400} bg='#00000015' c='black'>Откликнуться</Button>
         </Group>
     </ShadowWrapper>

@@ -11,14 +11,12 @@ import { vacanciesActions } from './../../store/slices/vacancies/vacanciesSlice'
 import { pageActions } from './../../store/slices/page/pageSlice';
 import VacanciesData from './../../pages/data/vacancies'
 import { Link, Route, Routes, useSearchParams } from 'react-router-dom';
+import { useQueryParams } from '../../tools/params/ParamTool';
 
 
 function App() {
   const [seacrchParams, setSearchParams] = useSearchParams();
-
-  const searchStringParam = seacrchParams.get('searchString')
-  const skillsParam = seacrchParams.getAll('skill')
-  const cityParam = seacrchParams.get('city')
+  const { updateSearchString, updateSkills, updateCity } = useQueryParams()
 
   const dispatch = useAppDispatch()
   const city = useAppSelector(state => state.filter.city)
@@ -31,12 +29,14 @@ function App() {
   const pageLimit = 10
 
   useEffect(() => {
-    dispatch(vacanciesActions.setAllVacancies(VacanciesData))
-  }, [])
-
-  useEffect(() => {
     dispatch(vacanciesActions.filterVacancies({searchString, skills, city}))
   }, [searchString, skills, city])
+
+  useEffect(() => {
+    updateSearchString()
+    updateSkills()
+    updateCity()
+  }, [])
 
   useEffect(() => {
     const integerPagesNumber = filteredList.length / pageLimit

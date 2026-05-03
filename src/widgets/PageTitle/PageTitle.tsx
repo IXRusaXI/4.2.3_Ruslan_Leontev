@@ -1,14 +1,22 @@
 import { Button, Group, Stack, Title, Text } from '@mantine/core';
-import { useAppDispatch } from '../../store/typedHooks'
+import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import SearchInput from './../../shared/SearchInput/SearchInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQueryParams } from '../../tools/params/ParamTool';
 
 export function PageTitle() {
+  const searchString = useAppSelector(state => state.filter.searchString)
   const [searchInput, setSearchInput] = useState('')
   const dispatch = useAppDispatch()
+  const { updateSearchString } = useQueryParams()
+
+  useEffect(() => {
+    setSearchInput(searchString)
+  }, [searchString])
   
   function onClick() {
+    updateSearchString(searchInput)
     dispatch(filterActions.setSearchString(searchInput))
   }
 

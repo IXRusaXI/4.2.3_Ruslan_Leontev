@@ -2,7 +2,7 @@ import type { Vacancy } from "../types/types";
 
 const VacanciesData: Vacancy[] = [
   {
-    id: "vacancy-001",
+    id: "1",
     name: "Frontend‑разработчик (React/TypeScript)",
     url: "https://example.com/vacancy/001",
     salary: {
@@ -40,7 +40,7 @@ const VacanciesData: Vacancy[] = [
     description: "Ищем фронтенд‑разработчика для работы над крупным веб‑приложением. Команда 10 человек, Agile."
   },
   {
-    id: "vacancy-002",
+    id: "2",
     name: "Python‑разработчик (Django)",
     salary: {
       from: 150000,
@@ -72,7 +72,7 @@ const VacanciesData: Vacancy[] = [
     alternate_url: "https://hh.ru/vacancy/002"
   },
   {
-    id: "vacancy-003",
+    id: "3",
     name: "Графический дизайнер",
     url: "https://example.com/vacancy/003",
     salary: {
@@ -105,7 +105,7 @@ const VacanciesData: Vacancy[] = [
     description: "Стартап ищет начинающего дизайнера. Гибкий график, интересные задачи."
   },
 {
-    id: "vacancy-004",
+    id: "4",
     name: "Системный администратор",
     salary: { from: 80000, to: 110000, currency: "RUR", gross: true },
     area: { id: "area-004", name: "Екатеринбург" },
@@ -127,7 +127,7 @@ const VacanciesData: Vacancy[] = [
   },
   // ...
   {
-    id: "vacancy-030",
+    id: "5",
     name: "Копирайтер/Контент‑менеджер",
     salary: { from: 40000, to: 60000, currency: "RUR", gross: true },
     area: { id: "area-005", name: "Краснодар" },

@@ -18,14 +18,10 @@ const vacanciesSlice = createSlice({
   initialState,
   reducers: {
     setAllVacancies: (state, action: PayloadAction<Vacancy[]>) => {
-        // console.log('action.payload:', action.payload);
-
         state.all = action.payload;
     },
 
     filterVacancies: (state, action: PayloadAction<SearchParams>) => {
-        console.log('action.payload:', action.payload);
-
         state.filtered = state.all.filter((vacancy) => {
             const { skills, searchString, city } = action.payload
 

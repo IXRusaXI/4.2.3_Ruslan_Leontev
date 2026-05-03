@@ -19,6 +19,9 @@ const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
+    setSkills: (state, action: PayloadAction<string[]>) => {
+        state.skills = action.payload
+    },
     addSkill: (state, action: PayloadAction<string>) => {
         if (action.payload.length === 0) return
         if (!state.skills.includes(action.payload)) state.skills.push(action.payload);

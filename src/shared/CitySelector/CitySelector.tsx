@@ -5,18 +5,21 @@ import { useAppDispatch } from '../../store/typedHooks'
 import './style.scss'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import { useEffect, useState } from 'react';
+import { useQueryParams } from '../../tools/params/ParamTool';
 
 export function CitySelector() {
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>('Все города');
   const dispatch = useAppDispatch()
+  const { updateCity } = useQueryParams()
 
   const handleChange = (value: string | null) => {
     setSelectedValue(value);
     value && dispatch(filterActions.updateCity(value))
+    value && updateCity(value)
   };
 
   useEffect(() => {
-    setSelectedValue('Все города')
+    updateCity(selectedValue)
   }, [])
 
   return (
