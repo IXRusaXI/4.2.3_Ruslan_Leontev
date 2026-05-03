@@ -19,20 +19,14 @@ export function useQueryParams() {
     function updateSearchString(inputSearchString?: string) {
         const searchString = searchParams.get('searchString')
 
-        console.log('inputSearchString', inputSearchString)
-
         if (inputSearchString !== undefined) {
             dispatch(filterActions.setSearchString(inputSearchString))
             updateParams('searchString', inputSearchString)
             return
         }
-        
-        console.log('searchString', searchString)
 
         if (searchString) {
             dispatch(filterActions.setSearchString(searchString))
-
-            console.log('Зашел')
         } else if (stateSearchString) {
             updateParams('searchString', stateSearchString)
         }
@@ -40,6 +34,8 @@ export function useQueryParams() {
 
     function updateSkills(inputSkills?: string[]) {
         const paramSkills = searchParams.get('skills')
+        const searchString = searchParams.get('searchString')
+        const paramCity = searchParams.get('city')
 
         if (inputSkills != undefined) {
             dispatch(filterActions.setSkills(inputSkills))
@@ -48,12 +44,26 @@ export function useQueryParams() {
         }
 
         if (paramSkills && paramSkills.length > 0) {
+            console.log('Потом Сюда зашли')
+
+
             const mass = paramSkills.split(',')
+
             if (JSON.stringify(mass) !== JSON.stringify(stateSkills)) {
                 dispatch(filterActions.setSkills(mass))
             }
         } else if (stateSkills && stateSkills.length > 0) {
-            if (!paramSkills) {
+            console.log('Second Alarm!!!!!!!!!!!')
+            console.log('paramSkills', paramSkills)
+            console.log('paramCity || searchString', paramCity || searchString)
+
+            if (paramCity || searchString) {
+                
+
+                dispatch(filterActions.setSkills([]))
+                updateParams('skills', [])
+            } else {
+                console.log('Сюда зашли', stateSkills)
                 updateParams('skills', stateSkills)
             }
         }
@@ -64,7 +74,12 @@ export function useQueryParams() {
 
         if (city) {
             dispatch(filterActions.updateCity(city))
-            updateParams('city', city)
+            if (city === 'Все города') {
+                updateParams('city', '')
+            } else {
+                updateParams('city', city)
+            }
+            
             return
         }
 
@@ -72,10 +87,10 @@ export function useQueryParams() {
             if (JSON.stringify(paramCity) !== JSON.stringify(stateCity)) {
                 dispatch(filterActions.updateCity(paramCity))
             }
-        } else if (stateCity && stateCity.length > 0) {
-            if (!paramCity) {
-                updateParams('city', stateCity)
-            }
+        } else if (stateCity && stateCity !== 'Все города') {
+            updateParams('city', stateCity)
+        } else if (stateCity === 'Все города') {
+            updateParams('city', '')
         }
     }
 
@@ -94,6 +109,8 @@ export function useQueryParams() {
             newParams.delete(paramName);
         }
         
+        console.log('updateParams searchParams', searchParams)
+        console.log('updateParams setSearchParams', paramName, newParams)
         setSearchParams(newParams);
     }
  

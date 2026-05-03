@@ -26,19 +26,22 @@ function App() {
   const filteredList = useAppSelector(state => state.vacancy.filtered)
   const searchString = useAppSelector(state => state.filter.searchString)
   const skills = useAppSelector(state => state.filter.skills)
+  const all = useAppSelector(state => state.vacancy.all)
   const pageLimit = 10
 
   useEffect(() => {
-    dispatch(vacanciesActions.filterVacancies({searchString, skills, city}))
-  }, [searchString, skills, city])
-
-  useEffect(() => {
     updateSearchString()
-    updateSkills()
     updateCity()
+    updateSkills()
   }, [])
 
   useEffect(() => {
+    if (all.length !== 0) dispatch(vacanciesActions.filterVacancies({searchString, skills, city}))
+  }, [searchString, skills, city, all])
+
+  useEffect(() => {
+    if (all.length === 0) return
+
     const integerPagesNumber = filteredList.length / pageLimit
     const floatPagesNumber = filteredList.length % pageLimit
 

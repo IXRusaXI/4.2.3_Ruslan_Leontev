@@ -16,19 +16,19 @@ export function SkillSettings() {
   const { updateSkills } = useQueryParams()
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    const searchString = searchParams.get('searchString')
-    const city = searchParams.get('city')
-    const paramSkills = searchParams.get('skills')
+//   useEffect(() => {
+//     const searchString = searchParams.get('searchString')
+//     const city = searchParams.get('city')
+//     const paramSkills = searchParams.get('skills')
 
-    if ((city || searchString) && !paramSkills?.length) {
-        dispatch(filterActions.setSkills([]))
-        updateSkills([])
-        return
-    }
+//     if ((city || searchString) && !paramSkills?.length) {
+//         dispatch(filterActions.setSkills([]))
+//         updateSkills([])
+//         return
+//     }
 
-    updateSkills(skills)
-  }, [])
+//     updateSkills(skills)
+//   }, [])
 
   function addSkill() {
     if (skillString.length === 0) return

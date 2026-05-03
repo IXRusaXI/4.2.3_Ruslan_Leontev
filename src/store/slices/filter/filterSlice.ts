@@ -11,7 +11,7 @@ interface FilterState {
 const initialState: FilterState = {
     searchString: '',
     skills: ['TypeScript', 'React', 'Redux'],
-    city: ''
+    city: 'Все города'
 };
 
 // Создание slice
