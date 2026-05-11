@@ -16,11 +16,12 @@ export function PageTitle() {
   }, [searchString])
   
   function onClick() {
-    dispatch(filterActions.setSearchString(searchInput))
-
-    if (searchInput.length === 0) {
-      searchParams.delete('searchString');
-      setSearchParams(searchParams);
+    if (searchInput.trim().length === 0) {
+      searchParams.delete('searchString')
+      setSearchParams(searchParams)
+      dispatch(filterActions.setSearchString(''))
+    } else {
+      dispatch(filterActions.setSearchString(searchInput))
     }
   }
 
