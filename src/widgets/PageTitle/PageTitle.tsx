@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import SearchInput from './../../shared/SearchInput/SearchInput';
 import { useEffect, useState } from 'react';
-import { useQueryParams } from '../../tools/params/ParamTool';
 
 export function PageTitle() {
   const searchString = useAppSelector(state => state.filter.searchString)

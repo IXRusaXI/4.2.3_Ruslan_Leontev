@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/typedHooks";
 import {
   filterActions,
-  initialState as filterInitialState,
   type FilterState,
 } from "../../store/slices/filter/filterSlice";
 
