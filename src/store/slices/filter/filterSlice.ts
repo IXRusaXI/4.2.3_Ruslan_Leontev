@@ -2,16 +2,16 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';// предп
 
 
 // Начальное состояние
-interface FilterState {
+export interface FilterState {
     skills: string[],
     searchString: string,
     city: string
 }
 
-const initialState: FilterState = {
+export const initialState: FilterState = {
     searchString: '',
-    skills: ['TypeScript', 'React', 'Redux'],
-    city: 'Все города'
+    skills: [],
+    city: 'Москва'
 };
 
 // Создание slice

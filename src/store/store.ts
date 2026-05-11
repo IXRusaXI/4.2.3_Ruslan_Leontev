@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import vacancyReducer from './slices/vacancies/vacanciesSlice'
 import filterReducer from './slices/filter/filterSlice'
 import pageReducer from './slices/page/pageSlice'
+import tabsReducer from './slices/tabs/tabsSlice'
 
 export interface Item {
     id: number,
@@ -14,7 +15,8 @@ export const store = configureStore({
   reducer: {
     vacancy: vacancyReducer,
     filter: filterReducer,
-    page: pageReducer
+    page: pageReducer,
+    tabs: tabsReducer
   },
 })
 

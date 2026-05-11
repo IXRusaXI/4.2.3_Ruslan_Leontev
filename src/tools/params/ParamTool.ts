@@ -1,123 +1,76 @@
+import { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../store/typedHooks"
-import { filterActions } from "../../store/slices/filter/filterSlice"
+import { useAppDispatch, useAppSelector } from "../../store/typedHooks";
+import {
+  filterActions,
+  initialState as filterInitialState,
+  type FilterState,
+} from "../../store/slices/filter/filterSlice";
 
+function parseSkills(value: string | null) {
+  if (value == null) {
+    return [];
+  }
+  return value.split(",").filter(Boolean);
+}
+
+function readQueryParams(searchParams: URLSearchParams) {
+  return {
+    searchString: searchParams.get("searchString") ?? "",
+    skills: parseSkills(searchParams.get("skills")),
+  };
+}
+
+function isSameArray(a: string[], b: string[]) {
+  return a.length === b.length && a.every((item, index) => item === b[index]);
+}
+
+function buildQueryParams(state: FilterState, UrlSearchString: string) {
+  const params = new URLSearchParams();
+
+
+  if (state.searchString.length > 0) {
+    params.set("searchString", state.searchString);
+  } else if (UrlSearchString.length > 0) {
+    params.set("searchString", UrlSearchString);
+  }
+
+  
+
+  if (state.skills.length > 0) {
+    params.set("skills", state.skills.join(","));
+  }
+
+  return params;
+}
 
 export function useQueryParams() {
-    const dispatch = useAppDispatch()
-    const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    const stateSearchString = useAppSelector(state => state.filter.searchString)
-    const stateSkills = useAppSelector(state => state.filter.skills)
-    const stateCity = useAppSelector(state => state.filter.city)
-    const allVacancies = useAppSelector(state => state.vacancy.all)
+  const filterState = useAppSelector((state) => state.filter);
 
-    function getVacancyById(id: string) {
-        return allVacancies.find((vacancy) => vacancy.id === id)
+  const urlState = useMemo(() => readQueryParams(searchParams), [searchParams]);
+
+  useEffect(() => {
+    if (filterState.searchString !== urlState.searchString && urlState.searchString.length > 0) {
+      dispatch(filterActions.setSearchString(urlState.searchString));
     }
 
-    function updateSearchString(inputSearchString?: string) {
-        const searchString = searchParams.get('searchString')
-
-        if (inputSearchString !== undefined) {
-            dispatch(filterActions.setSearchString(inputSearchString))
-            updateParams('searchString', inputSearchString)
-            return
-        }
-
-        if (searchString) {
-            dispatch(filterActions.setSearchString(searchString))
-        } else if (stateSearchString) {
-            updateParams('searchString', stateSearchString)
-        }
+    if (!isSameArray(filterState.skills, urlState.skills)) {
+      dispatch(filterActions.setSkills(urlState.skills));
     }
+  }, [
+    urlState.searchString,
+    urlState.skills,
+  ]);
 
-    function updateSkills(inputSkills?: string[]) {
-        const paramSkills = searchParams.get('skills')
-        const searchString = searchParams.get('searchString')
-        const paramCity = searchParams.get('city')
+  useEffect(() => {
+    const nextParams = buildQueryParams(filterState, urlState.searchString);
 
-        if (inputSkills != undefined) {
-            dispatch(filterActions.setSkills(inputSkills))
-            updateParams('skills', inputSkills)
-            return
-        }
-
-        if (paramSkills && paramSkills.length > 0) {
-            console.log('Потом Сюда зашли')
-
-
-            const mass = paramSkills.split(',')
-
-            if (JSON.stringify(mass) !== JSON.stringify(stateSkills)) {
-                dispatch(filterActions.setSkills(mass))
-            }
-        } else if (stateSkills && stateSkills.length > 0) {
-            console.log('Second Alarm!!!!!!!!!!!')
-            console.log('paramSkills', paramSkills)
-            console.log('paramCity || searchString', paramCity || searchString)
-
-            if (paramCity || searchString) {
-                
-
-                dispatch(filterActions.setSkills([]))
-                updateParams('skills', [])
-            } else {
-                console.log('Сюда зашли', stateSkills)
-                updateParams('skills', stateSkills)
-            }
-        }
+    if (nextParams.toString() !== searchParams.toString()) {
+      setSearchParams(nextParams);
     }
-
-    function updateCity(city?: string | null) {
-        const paramCity = searchParams.get('city')
-
-        if (city) {
-            dispatch(filterActions.updateCity(city))
-            if (city === 'Все города') {
-                updateParams('city', '')
-            } else {
-                updateParams('city', city)
-            }
-            
-            return
-        }
-
-        if (paramCity && paramCity.length > 0) {
-            if (JSON.stringify(paramCity) !== JSON.stringify(stateCity)) {
-                dispatch(filterActions.updateCity(paramCity))
-            }
-        } else if (stateCity && stateCity !== 'Все города') {
-            updateParams('city', stateCity)
-        } else if (stateCity === 'Все города') {
-            updateParams('city', '')
-        }
-    }
-
-    function updateParams(paramName: string, paramValue: any) {
-        const newParams = new URLSearchParams(searchParams);
-
-        if (Array.isArray(paramValue)) {
-            if (paramValue.length > 0) {
-                newParams.set(paramName, paramValue.join(','));
-            } else {
-                newParams.delete(paramName); 
-            }
-        } else if (paramValue && paramValue.length > 0) {
-            newParams.set(paramName, paramValue);
-        } else {
-            newParams.delete(paramName);
-        }
-        
-        console.log('updateParams searchParams', searchParams)
-        console.log('updateParams setSearchParams', paramName, newParams)
-        setSearchParams(newParams);
-    }
- 
-    return {
-        getVacancyById,
-        updateSearchString,
-        updateSkills,
-        updateCity
-    }
+  }, [filterState]);
 }
+
