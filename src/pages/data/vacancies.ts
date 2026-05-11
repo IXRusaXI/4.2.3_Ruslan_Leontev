@@ -50,7 +50,7 @@ const VacanciesData: Vacancy[] = [
     },
     area: {
       id: "area-002",
-      name: "Санкт‑Петербург"
+      name: "Санкт-Петербург"
     },
     experience: {
       id: "exp-003",

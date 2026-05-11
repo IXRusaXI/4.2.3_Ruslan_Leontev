@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';// предп
 
 
 // Начальное состояние
-interface FilterState {
+export interface FilterState {
     skills: string[],
     searchString: string,
     city: string

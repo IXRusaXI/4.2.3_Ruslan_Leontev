@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 function Layout() {
   return (
-    <Box bg='background' mih='100vh' pb='xl' >
+    <Box mih='100vh' pb='xl' >
       <Header />
 
       <Outlet />

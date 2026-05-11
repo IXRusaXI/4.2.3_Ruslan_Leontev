@@ -9,14 +9,12 @@ export function PageTitle() {
   const searchString = useAppSelector(state => state.filter.searchString)
   const [searchInput, setSearchInput] = useState('')
   const dispatch = useAppDispatch()
-  const { updateSearchString } = useQueryParams()
 
   useEffect(() => {
     setSearchInput(searchString)
   }, [searchString])
   
   function onClick() {
-    updateSearchString(searchInput)
     dispatch(filterActions.setSearchString(searchInput))
   }
 
