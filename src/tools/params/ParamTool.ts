@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/typedHooks";
 import {
   filterActions,
-  initialState as filterInitialState,
   type FilterState,
 } from "../../store/slices/filter/filterSlice";
 
@@ -34,8 +33,6 @@ function buildQueryParams(state: FilterState, UrlSearchString: string) {
   } else if (UrlSearchString.length > 0) {
     params.set("searchString", UrlSearchString);
   }
-
-  
 
   if (state.skills.length > 0) {
     params.set("skills", state.skills.join(","));

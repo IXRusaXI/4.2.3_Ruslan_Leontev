@@ -1,6 +1,6 @@
 import { Container, Flex, Group, Pill, Text } from "@mantine/core"
 import SkillList from "../SkillList/SkillList"
-import { filterActions, initialState as filterInitialState } from "../../store/slices/filter/filterSlice";
+import { filterActions } from "../../store/slices/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import './style.scss'
 

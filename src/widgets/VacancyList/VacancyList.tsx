@@ -1,6 +1,5 @@
 import { Stack, Group, Pagination, Flex, Title } from "@mantine/core"
 import { Vacancy as VacancyCard } from "../Vacancy/Vacancy"
-import { type Vacancy } from "../../pages/types/types"
 import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { pageActions } from './../../store/slices/page/pageSlice';
 

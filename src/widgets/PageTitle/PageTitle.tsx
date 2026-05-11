@@ -3,11 +3,12 @@ import { useAppDispatch, useAppSelector } from '../../store/typedHooks'
 import { filterActions } from '../../store/slices/filter/filterSlice';
 import SearchInput from './../../shared/SearchInput/SearchInput';
 import { useEffect, useState } from 'react';
-import { useQueryParams } from '../../tools/params/ParamTool';
+import { useSearchParams } from 'react-router-dom';
 
 export function PageTitle() {
   const searchString = useAppSelector(state => state.filter.searchString)
   const [searchInput, setSearchInput] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -16,6 +17,11 @@ export function PageTitle() {
   
   function onClick() {
     dispatch(filterActions.setSearchString(searchInput))
+
+    if (searchInput.length === 0) {
+      searchParams.delete('searchString');
+      setSearchParams(searchParams);
+    }
   }
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
