@@ -7,11 +7,13 @@ interface PaginationState {
     activePageNumber: number,
     activePageList: Vacancy[],
     total: number
+    pageLimit: number
 }
 
 const initialState: PaginationState = {
     activePageNumber: 1,
     total: 0,
+    pageLimit: 4,
     activePageList: []
 };
 
@@ -27,9 +29,10 @@ const pageSlice = createSlice({
         state.activePageNumber = action.payload
     },
     setActivePageList: (state, action: PayloadAction<{filtered: Vacancy[], page: number}>) => {
-        const limit = 10
-
-        state.activePageList = action.payload.filtered.slice((action.payload.page - 1) * limit, action.payload.page * limit)
+        state.activePageList = action.payload.filtered.slice(
+            (action.payload.page - 1) * state.pageLimit, 
+            action.payload.page * state.pageLimit
+        )
     }
   }
 });

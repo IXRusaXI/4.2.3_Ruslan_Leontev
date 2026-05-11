@@ -9,13 +9,10 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './../../store/typedHooks'
 import { vacanciesActions } from './../../store/slices/vacancies/vacanciesSlice';
 import { pageActions } from './../../store/slices/page/pageSlice';
-import VacanciesData from './../../pages/data/vacancies'
-import { Link, Route, Routes, useSearchParams } from 'react-router-dom';
 import { useQueryParams } from '../../tools/params/ParamTool';
 
 
 function App() {
-  const [seacrchParams, setSearchParams] = useSearchParams();
   const { updateSearchString, updateSkills, updateCity } = useQueryParams()
 
   const dispatch = useAppDispatch()
@@ -27,7 +24,7 @@ function App() {
   const searchString = useAppSelector(state => state.filter.searchString)
   const skills = useAppSelector(state => state.filter.skills)
   const all = useAppSelector(state => state.vacancy.all)
-  const pageLimit = 10
+  const pageLimit = useAppSelector(state => state.page.pageLimit)
 
   useEffect(() => {
     updateSearchString()
